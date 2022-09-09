@@ -1,79 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:tp_5n6/addTask.dart';
+import 'package:tp_5n6/taskDetail.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
+class Main extends StatefulWidget{
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  MainPage createState() => MainPage();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class MainPage extends State<Main>{
+  late List<String> taskList;
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void initState(){
+    taskList = ['Anne', 'Brigitte', 'Charlotte', 'Diane'];
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext buildContext){
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Main"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          children: <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Username",
-              ),
+      body: ListView.builder(
+        itemCount: taskList.length,
+        itemBuilder: (context, i){
+          return Container(
+            child: ListTile(
+              title: Text(taskList[i].toString()), //TODO mettre de l'imagination 🖼
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetail()));
+              },
             ),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Password",
-              ),
-            ),
-            TextButton(onPressed: () {},
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.blue,
-                primary: Colors.white,
-              ),
-              child: Text("Log In"),
-            ),
-            TextButton(onPressed: () {},
-              child: Text("Sign In"),
-            ),
-          ],
-        ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddTask()));
+        },
+        tooltip: 'Add Task',
+        child: const Icon(Icons.add),
       ),
     );
   }
