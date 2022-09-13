@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tp_5n6/addTask.dart';
 import 'package:tp_5n6/taskDetail.dart';
+import 'package:intl/intl.dart';
+
+import 'models/task.dart';
 
 class Main extends StatefulWidget{
   @override
@@ -8,10 +11,13 @@ class Main extends StatefulWidget{
 }
 
 class MainPage extends State<Main>{
-  late List<String> taskList;
+  late List<Task> taskList;
 
   void initState(){
-    taskList = ['Anne', 'Brigitte', 'Charlotte', 'Diane'];
+    taskList = [ Task('Anne', 463, 645, DateTime.utc(4524, 1, 1)),
+      Task('Brigitte', 645, 4, DateTime.utc(9531, 1, 1)),
+      Task('Charlotte', 245, 239, DateTime.utc(2123, 1, 1)),
+      Task('Diane', 245, 46, DateTime.utc(1538, 1, 1))];
   }
 
   @override
@@ -24,11 +30,15 @@ class MainPage extends State<Main>{
         itemCount: taskList.length,
         itemBuilder: (context, i){
           return Container(
-            child: ListTile(
-              title: Text(taskList[i].toString()), //TODO mettre de l'imagination 🖼
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetail()));
-              },
+            child: Card(
+              child: ListTile(
+                title: Text(taskList[i].name), //TODO mettre de l'imagination 🖼
+                subtitle: Text('Time pass: ${taskList[i].timeProgressPercent}% | Final date : ${DateFormat('dd/MMM/yyyy').format(taskList[i].end)}'),
+                trailing: Text('${taskList[i].progressPercent}%'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetail(task: taskList[i])));
+                },
+              ),
             ),
           );
         },
