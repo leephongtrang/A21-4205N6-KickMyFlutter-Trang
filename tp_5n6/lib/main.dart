@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tp_5n6/addTask.dart';
+import 'package:tp_5n6/logIn.dart';
+import 'package:tp_5n6/models/singleton.dart';
 import 'package:tp_5n6/taskDetail.dart';
 import 'package:intl/intl.dart';
 
@@ -12,6 +14,7 @@ class Main extends StatefulWidget{
 
 class MainPage extends State<Main>{
   late List<Task> taskList;
+  var s = Singleton();
 
   void initState(){
     taskList = [ Task('Anne', 463, 645, DateTime.utc(4524, 1, 1)),
@@ -49,6 +52,37 @@ class MainPage extends State<Main>{
         },
         tooltip: 'Add Task',
         child: const Icon(Icons.add),
+      ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Add task'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTask()));
+              },
+            ),
+            ListTile(
+              title: const Text('Log out'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

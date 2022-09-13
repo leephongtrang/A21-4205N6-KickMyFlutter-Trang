@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:tp_5n6/logIn.dart';
+import 'package:tp_5n6/models/singleton.dart';
 
 import 'main.dart';
 
@@ -11,8 +13,6 @@ class AddTask extends StatefulWidget{
 
 class AddTaskPage extends State<AddTask>{
   late TextEditingController _controllerTaskName;
-
-  get onDateChanged => null;
 
   String _selectedDate = '';
   String _dateCount = '';
@@ -75,7 +75,34 @@ class AddTaskPage extends State<AddTask>{
             child: Text("Add"),
           ),
         ],
-      )
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('534fsdf'),
+            ),
+            ListTile(
+              title: const Text('Main menu'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+              },
+            ),
+            ListTile(
+              title: const Text('Log out'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
