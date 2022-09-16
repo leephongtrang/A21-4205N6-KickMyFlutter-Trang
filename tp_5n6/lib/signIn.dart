@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp_5n6/main.dart';
+import 'package:dio/dio.dart';
 
 class SignIn extends StatefulWidget{
   const SignIn();
@@ -16,6 +17,14 @@ class SignInPage extends State<SignIn> {
     _controllerPassword1 = TextEditingController();
     _controllerUsername = TextEditingController();
     _controllerPassword2 = TextEditingController();
+  }
+
+  void _signup(String username, String password) async {
+    try {
+
+    } catch(e){
+
+    }
   }
 
   @override
@@ -51,6 +60,7 @@ class SignInPage extends State<SignIn> {
             ),
           ),
           TextButton(onPressed: () {
+
             Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
           },
             style: TextButton.styleFrom(
