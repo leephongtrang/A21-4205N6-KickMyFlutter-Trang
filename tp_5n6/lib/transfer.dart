@@ -23,10 +23,10 @@ class SignupResponse {
   Map<String, dynamic> toJson() => _$SignupResponseToJson(this);
 }
 
-@JsonSerializable()
+/*@JsonSerializable()
 class AddTaskRequest {
   AddTaskRequest();
 
   String name;
   Date deadline;
-}
+}*/

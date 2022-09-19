@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tp_5n6/http_lib.dart';
 import 'package:tp_5n6/main.dart';
 import 'package:dio/dio.dart';
+import 'package:tp_5n6/transfer.dart';
 
 class SignIn extends StatefulWidget{
   const SignIn();
@@ -21,9 +23,13 @@ class SignInPage extends State<SignIn> {
 
   void _signup(String username, String password) async {
     try {
-
+      SignupRequest s = new SignupRequest();
+      s.username = username;
+      s.password = password;
+      signup(s);
     } catch(e){
-
+      print(e);
+      throw(e);
     }
   }
 
@@ -60,7 +66,7 @@ class SignInPage extends State<SignIn> {
             ),
           ),
           TextButton(onPressed: () {
-
+            _signup(_controllerUsername.text, _controllerPassword1.text);
             Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
           },
             style: TextButton.styleFrom(
