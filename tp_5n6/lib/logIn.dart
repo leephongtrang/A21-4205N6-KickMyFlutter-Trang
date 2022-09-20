@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tp_5n6/http_lib.dart';
 import 'package:tp_5n6/main.dart';
 import 'package:tp_5n6/signIn.dart';
+import 'package:tp_5n6/transfer.dart';
+
+import 'models/singleton.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,8 +36,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   late TextEditingController _controllerUsername;
   late TextEditingController _controllerPassword;
 
@@ -42,10 +44,17 @@ class _MyHomePageState extends State<MyHomePage> {
     _controllerUsername = TextEditingController();
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _signin(String username, String password) async {
+    SigninRequest s = SigninRequest();
+    s.username = username;
+    s.password = password;
+    try {
+      SigninResponse signinResponse = await signin(s);
+    }
+    catch (e) {
+      print(e);
+      throw(e);
+    }
   }
 
   @override
@@ -57,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-
           children: <Widget>[
             TextField(
               controller: _controllerUsername,
@@ -74,7 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 labelText: "Password",
               ),
             ),
-            TextButton(onPressed: () {
+            TextButton(onPressed: () async {
+              _signin(_controllerUsername.text, _controllerPassword.text);
               Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
             },
               style: TextButton.styleFrom(

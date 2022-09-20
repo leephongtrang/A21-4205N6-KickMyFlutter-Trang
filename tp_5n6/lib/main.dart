@@ -5,6 +5,7 @@ import 'package:tp_5n6/models/singleton.dart';
 import 'package:tp_5n6/taskDetail.dart';
 import 'package:intl/intl.dart';
 
+import 'http_lib.dart';
 import 'models/task.dart';
 
 class Main extends StatefulWidget{
@@ -14,13 +15,19 @@ class Main extends StatefulWidget{
 
 class MainPage extends State<Main>{
   late List<Task> taskList;
-  var s = Singleton();
 
   void initState(){
     taskList = [ Task('Anne', 463, 645, DateTime.utc(4524, 1, 1)),
       Task('Brigitte', 645, 4, DateTime.utc(9531, 1, 1)),
       Task('Charlotte', 245, 239, DateTime.utc(2123, 1, 1)),
       Task('Diane', 245, 46, DateTime.utc(1538, 1, 1))];
+  }
+
+  String _username(){
+    if(Singleton().getUsername() == null){
+      return "sdad";
+    }
+    else { return Singleton().getUsername(); }
   }
 
   @override
@@ -54,18 +61,14 @@ class MainPage extends State<Main>{
         child: const Icon(Icons.add),
       ),
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text('Drawer Header'),
+              child: Text('Singleton().getUsername()'),
             ),
             ListTile(
               title: const Text('Add task'),
@@ -76,7 +79,8 @@ class MainPage extends State<Main>{
             ),
             ListTile(
               title: const Text('Log out'),
-              onTap: () {
+              onTap: () async {
+                signout();
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
               },

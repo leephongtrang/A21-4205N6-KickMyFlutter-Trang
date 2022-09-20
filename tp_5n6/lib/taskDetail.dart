@@ -3,6 +3,7 @@ import 'package:tp_5n6/addTask.dart';
 import 'package:tp_5n6/logIn.dart';
 import 'package:tp_5n6/models/task.dart';
 
+import 'http_lib.dart';
 import 'main.dart';
 
 class TaskDetail extends StatefulWidget{
@@ -98,6 +99,7 @@ class TaskDetailPage extends State<TaskDetail>{
             ListTile(
               title: const Text('Log out'),
               onTap: () {
+                signout();
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
               },

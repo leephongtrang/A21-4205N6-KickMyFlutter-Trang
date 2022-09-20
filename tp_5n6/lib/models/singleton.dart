@@ -6,4 +6,13 @@ class Singleton {
   }
 
   Singleton._internal();
+
+  String username = '';
+  setUsername(String _username){
+    username = _username;
+  }
+
+  getUsername(){
+    return username;
+  }
 }

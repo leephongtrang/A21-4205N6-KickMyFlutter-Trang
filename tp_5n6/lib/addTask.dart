@@ -3,7 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:tp_5n6/logIn.dart';
 import 'package:tp_5n6/models/singleton.dart';
+import 'package:tp_5n6/transfer.dart';
 
+import 'http_lib.dart';
 import 'main.dart';
 
 class AddTask extends StatefulWidget{
@@ -39,6 +41,18 @@ class AddTaskPage extends State<AddTask>{
     _controllerTaskName = TextEditingController();
   }
 
+  void _addTaskRequest() async {
+    AddTaskRequest a = new AddTaskRequest();
+    a.deadline = _selectedDate;
+    a.name = _controllerTaskName.text;
+    try {
+      await addTask(a);
+    }
+    catch (e) {
+      throw(e);
+    }
+  }
+
   @override
   Widget build(BuildContext buildContext){
     return Scaffold(
@@ -65,7 +79,8 @@ class AddTaskPage extends State<AddTask>{
           ),
 
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              _addTaskRequest();
             Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
           },
             style: TextButton.styleFrom(
@@ -96,6 +111,7 @@ class AddTaskPage extends State<AddTask>{
             ListTile(
               title: const Text('Log out'),
               onTap: () {
+                signout();
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
               },

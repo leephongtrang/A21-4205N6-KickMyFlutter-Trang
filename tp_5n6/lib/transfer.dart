@@ -14,19 +14,33 @@ class SignupRequest {
 }
 
 @JsonSerializable()
-class SignupResponse {
-  SignupResponse();
+class SigninRequest {
+  SigninRequest();
+
+  String username = '';
+  String password = '';
+
+  factory SigninRequest.fromJson(Map<String, dynamic> json) => _$SigninRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$SigninRequestToJson(this);
+}
+
+@JsonSerializable()
+class SigninResponse {
+  SigninResponse();
 
   String username = '';
 
-  factory SignupResponse.fromJson(Map<String, dynamic> json) => _$SignupResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$SignupResponseToJson(this);
+  factory SigninResponse.fromJson(Map<String, dynamic> json) => _$SigninResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$SigninResponseToJson(this);
 }
 
-/*@JsonSerializable()
+@JsonSerializable()
 class AddTaskRequest {
   AddTaskRequest();
 
-  String name;
-  Date deadline;
-}*/
+  String name = '';
+  String deadline = '';
+
+  factory AddTaskRequest.fromJson(Map<String, dynamic> json) => _$AddTaskRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$AddTaskRequestToJson(this);
+}

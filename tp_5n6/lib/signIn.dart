@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tp_5n6/http_lib.dart';
 import 'package:tp_5n6/main.dart';
-import 'package:dio/dio.dart';
 import 'package:tp_5n6/transfer.dart';
+
+import 'models/singleton.dart';
 
 class SignIn extends StatefulWidget{
   const SignIn();
@@ -22,12 +23,13 @@ class SignInPage extends State<SignIn> {
   }
 
   void _signup(String username, String password) async {
+    SignupRequest s = SignupRequest();
+    s.username = username;
+    s.password = password;
     try {
-      SignupRequest s = new SignupRequest();
-      s.username = username;
-      s.password = password;
-      signup(s);
-    } catch(e){
+      SigninResponse signinResponse = await signup(s);
+    }
+    catch(e){
       print(e);
       throw(e);
     }
@@ -65,7 +67,7 @@ class SignInPage extends State<SignIn> {
               labelText: "Confirm password",
             ),
           ),
-          TextButton(onPressed: () {
+          TextButton(onPressed: () async {
             _signup(_controllerUsername.text, _controllerPassword1.text);
             Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
           },
