@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'transfer.g.dart';
@@ -43,4 +45,18 @@ class AddTaskRequest {
 
   factory AddTaskRequest.fromJson(Map<String, dynamic> json) => _$AddTaskRequestFromJson(json);
   Map<String, dynamic> toJson() => _$AddTaskRequestToJson(this);
+}
+
+@JsonSerializable()
+class HomeItemResponse {
+  HomeItemResponse();
+
+  int id = '' as int;
+  String name = '';
+  int percentageDone = '' as int;
+  double percentageTimeSpent = '' as double;
+  DateTime deadline = '' as DateTime;
+
+  factory HomeItemResponse.fromJson(Map<String, dynamic> json) => _$HomeItemResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$HomeItemResponseToJson(this);
 }

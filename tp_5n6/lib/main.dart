@@ -80,7 +80,7 @@ class MainPage extends State<Main>{
             ListTile(
               title: const Text('Log out'),
               onTap: () async {
-                signout();
+                signout;
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
               },

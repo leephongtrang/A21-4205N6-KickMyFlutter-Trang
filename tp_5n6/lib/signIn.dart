@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:tp_5n6/http_lib.dart';
 import 'package:tp_5n6/main.dart';
@@ -68,8 +69,12 @@ class SignInPage extends State<SignIn> {
             ),
           ),
           TextButton(onPressed: () async {
-            _signup(_controllerUsername.text, _controllerPassword1.text);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+            try {
+              _signup(_controllerUsername.text, _controllerPassword1.text);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+            } on DioError catch (e) {
+
+            }
           },
             style: TextButton.styleFrom(
               backgroundColor: Colors.blue,

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:tp_5n6/transfer.dart';
@@ -22,13 +24,14 @@ Future<String> cookieDemo() async {
 
 Future<SigninResponse> signup(SignupRequest s) async {
   try {
-    var response = await Dio().post(
+    var response = await SingletonDio.getDio().post(
         'http://10.0.2.2:8080/api/id/signup',//iOS 127.0.0.1:8080
         //TODO flutter clean avant de remettre le TP
         data: s
     );
+    print(response.headers.map[1]);
     print(response);
-    return  SigninResponse.fromJson(response.data);
+    return SigninResponse.fromJson(response.data);
   }
   catch (e) {
     print(e);
@@ -38,11 +41,13 @@ Future<SigninResponse> signup(SignupRequest s) async {
 
 Future<SigninResponse> signin(SigninRequest s) async {
   try {
-    var response = await Dio().post(
+    var response = await SingletonDio.getDio().post(
         'http://10.0.2.2:8080/api/id/signin',//iOS 127.0.0.1:8080
         data: s
     );
-    print(response);
+    print(response.headers.map[1]);
+    print(response.data);
+
     return  SigninResponse.fromJson(response.data);
   }
   catch (e) {
@@ -53,7 +58,7 @@ Future<SigninResponse> signin(SigninRequest s) async {
 
 Future<String> signout() async {
   try {
-    var response = await Dio().post(
+    var response = await SingletonDio.getDio().post(
         'http://10.0.2.2:8080/api/id/signout',//iOS 127.0.0.1:8080
 
     );
@@ -68,12 +73,47 @@ Future<String> signout() async {
 
 Future<String> addTask(AddTaskRequest a) async {
   try {
-    var response = await Dio().post(
+    var response = await SingletonDio.getDio().post(
         'http://10.0.2.2:8080/api/add',//iOS 127.0.0.1:8080
         data: a
     );
     print(response);
     return  response.data;
+  }
+  catch (e) {
+    print(e);
+    throw(e);
+  }
+}
+
+Future<String> update(Long id, int value) async {
+  try {
+    var response = await SingletonDio.getDio().get(
+        'http://10.0.2.2:8080/api/progress/$id/$value',//iOS 127.0.0.1:8080
+    );
+    print(response);
+    return response.data;
+  }
+  catch (e) {
+    print(e);
+    throw(e);
+  }
+}
+
+Future<List<HomeItemResponse>> home() async {
+  try {
+    var response = await SingletonDio.getDio().get(
+        'http://10.0.2.2:8080/api/add',//iOS 127.0.0.1:8080
+    );
+
+    var listJSON = response.data as List;
+    var listHomeItemResponse = listJSON.map(
+            (e) {
+              return HomeItemResponse.fromJson(e);
+            }
+    ).toList();
+    print(response);
+    return listHomeItemResponse;
   }
   catch (e) {
     print(e);
