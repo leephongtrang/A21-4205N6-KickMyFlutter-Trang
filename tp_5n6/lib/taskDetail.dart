@@ -2,27 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:tp_5n6/addTask.dart';
 import 'package:tp_5n6/logIn.dart';
 import 'package:tp_5n6/models/task.dart';
+import 'package:tp_5n6/transfer.dart';
 
 import 'http_lib.dart';
 import 'main.dart';
 
 class TaskDetail extends StatefulWidget{
-  final Task task;
-  const TaskDetail({required this.task});
+  final int id;
+  const TaskDetail({required this.id});
   @override
   TaskDetailPage createState() => TaskDetailPage();
 }
 
 class TaskDetailPage extends State<TaskDetail>{
+
+
+  HomeItemResponse task = HomeItemResponse();
+
+
   _plusOneProgress(){
     setState(() {
-      widget.task.progressPercent++;
+      task.percentageDone++;
     });
   }
 
   _minusOneProgress(){
     setState(() {
-      widget.task.progressPercent--;
+      task.percentageDone--;
     });
   }
 
@@ -36,7 +42,7 @@ class TaskDetailPage extends State<TaskDetail>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,        
           children: [
-            Text(widget.task.name),
+            Text(task.name),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -46,7 +52,7 @@ class TaskDetailPage extends State<TaskDetail>{
                     },
                     icon: Icon(Icons.arrow_circle_left_rounded)
                 ),
-                Text('Avancement: ${widget.task.progressPercent}%'),
+                Text('Avancement: ${task.percentageDone}%'),
                 IconButton(
                     onPressed: () {
                       _plusOneProgress();
@@ -55,7 +61,7 @@ class TaskDetailPage extends State<TaskDetail>{
                 ),
               ],
             ),
-            Text('Time pass: ${widget.task.timeProgressPercent}%'),
+            Text('Time pass: ${task.percentageTimeSpent}%'),
             TextButton(onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
             },

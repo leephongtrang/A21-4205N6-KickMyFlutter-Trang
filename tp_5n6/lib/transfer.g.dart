@@ -39,12 +39,12 @@ Map<String, dynamic> _$SigninResponseToJson(SigninResponse instance) =>
 AddTaskRequest _$AddTaskRequestFromJson(Map<String, dynamic> json) =>
     AddTaskRequest()
       ..name = json['name'] as String
-      ..deadline = json['deadline'] as String;
+      ..deadline = _fromJson(json['deadline'] as String);
 
 Map<String, dynamic> _$AddTaskRequestToJson(AddTaskRequest instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'deadline': instance.deadline,
+      'deadline': _toJson(instance.deadline),
     };
 
 HomeItemResponse _$HomeItemResponseFromJson(Map<String, dynamic> json) =>

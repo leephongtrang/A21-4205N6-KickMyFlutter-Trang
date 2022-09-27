@@ -45,8 +45,6 @@ Future<SigninResponse> signin(SigninRequest s) async {
         'http://10.0.2.2:8080/api/id/signin',//iOS 127.0.0.1:8080
         data: s
     );
-    print(response.headers.map[1]);
-    print(response.data);
 
     return  SigninResponse.fromJson(response.data);
   }
@@ -103,7 +101,7 @@ Future<String> update(Long id, int value) async {
 Future<List<HomeItemResponse>> home() async {
   try {
     var response = await SingletonDio.getDio().get(
-        'http://10.0.2.2:8080/api/add',//iOS 127.0.0.1:8080
+        'http://10.0.2.2:8080/api/home',//iOS 127.0.0.1:8080
     );
 
     var listJSON = response.data as List;

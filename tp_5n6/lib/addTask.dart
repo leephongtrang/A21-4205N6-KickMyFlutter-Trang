@@ -43,7 +43,7 @@ class AddTaskPage extends State<AddTask>{
 
   void _addTaskRequest() async {
     AddTaskRequest a = new AddTaskRequest();
-    a.deadline = _selectedDate;
+    a.deadline = DateTime.parse(_selectedDate);
     a.name = _controllerTaskName.text;
     try {
       await addTask(a);

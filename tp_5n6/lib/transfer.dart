@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'package:intl/intl.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
@@ -41,11 +42,16 @@ class AddTaskRequest {
   AddTaskRequest();
 
   String name = '';
-  String deadline = '';
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  DateTime deadline = DateTime.now();
 
   factory AddTaskRequest.fromJson(Map<String, dynamic> json) => _$AddTaskRequestFromJson(json);
   Map<String, dynamic> toJson() => _$AddTaskRequestToJson(this);
 }
+final _dateFormatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
+DateTime _fromJson(String date) => _dateFormatter.parse(date);
+String _toJson(DateTime date) => _dateFormatter.format(date);
+
 
 @JsonSerializable()
 class HomeItemResponse {
