@@ -14,10 +14,13 @@ class SingletonDio {
     return dio;
   }
 
+  static String urlAndroid = "http://10.0.2.2:8080/api/";
+  static String urliOS = "http://127.0.0.1:8080/api/";
+
   static Future<SigninResponse> signup(SignupRequest s) async {
     try {
       var response = await getDio().post(
-          'http://10.0.2.2:8080/api/id/signup',//iOS 127.0.0.1:8080
+          '${urlAndroid}id/signup',
           data: s//TODO flutter clean avant de remettre le TP
       );
 
@@ -34,7 +37,7 @@ class SingletonDio {
   static Future<SigninResponse> signin(SigninRequest s) async {
     try {
       var response = await getDio().post(
-          'http://10.0.2.2:8080/api/id/signin',//iOS 127.0.0.1:8080
+          '${urlAndroid}id/signin',//iOS 127.0.0.1:8080
           data: s
       );
 
@@ -49,7 +52,7 @@ class SingletonDio {
   static Future<String> signout() async {
     try {
       var response = await getDio().post(
-        'http://10.0.2.2:8080/api/id/signout',//iOS 127.0.0.1:8080
+        '${urlAndroid}id/signout',//iOS 127.0.0.1:8080
 
       );
       print(response);
@@ -64,7 +67,7 @@ class SingletonDio {
   static Future<String> addTask(AddTaskRequest a) async {
     try {
       var response = await getDio().post(
-          'http://10.0.2.2:8080/api/add',//iOS 127.0.0.1:8080
+          '${urlAndroid}add',//iOS 127.0.0.1:8080
           data: a
       );
       print(response);
@@ -76,10 +79,10 @@ class SingletonDio {
     }
   }
 
-  static Future<String> update(Long id, int value) async {
+  static Future<String> update(int id, int value) async {
     try {
       var response = await getDio().get(
-        'http://10.0.2.2:8080/api/progress/$id/$value',//iOS 127.0.0.1:8080
+        '${urlAndroid}progress/$id/$value',//iOS 127.0.0.1:8080
       );
       print(response);
       return response.data;
@@ -93,7 +96,7 @@ class SingletonDio {
   static Future<List<HomeItemResponse>> home() async {
     try {
       var response = await getDio().get(
-        'http://10.0.2.2:8080/api/home',//iOS 127.0.0.1:8080
+        '${urlAndroid}home',//iOS 127.0.0.1:8080
       );
 
       var listJSON = response.data as List;
@@ -111,7 +114,23 @@ class SingletonDio {
     }
   }
 
+  static Future<TaskDetailResponse> detail(int id) async {
+    try {
+      var response = await getDio().get(
+        '${urlAndroid}detail/$id'
+      );
+      print(response.data);
+
+      return TaskDetailResponse.fromJson(response.data);
+    }
+    catch (e) {
+      print(e);
+      throw(e);
+    }
+  }
 }
+
+
 
 /*Future<String> cookieDemo() async {
   var response = await SingletonDio.getDio().get('http://exercices-web.herokuapp.com/exos/cookie/echo');

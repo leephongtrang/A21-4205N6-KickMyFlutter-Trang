@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tp_5n6/addTask.dart';
 import 'package:tp_5n6/logIn.dart';
 import 'package:tp_5n6/transfer.dart';
+import 'package:intl/intl.dart';
 
 import 'http_lib.dart';
 import 'main.dart';
@@ -14,10 +15,20 @@ class TaskDetail extends StatefulWidget{
 }
 
 class TaskDetailPage extends State<TaskDetail>{
+  TaskDetailResponse task = TaskDetailResponse();
 
+  void initState() {
+    _getDetail(widget.id);
+  }
 
-  HomeItemResponse task = HomeItemResponse();
+  Future<void> _getDetail(int id) async {
+    task = await SingletonDio.detail(id);
+    setState(() {});
+  }
 
+  Future<void> _update() async {
+    var response = await SingletonDio.update(task.id, task.percentageDone);
+  }
 
   _plusOneProgress(){
     setState(() {
@@ -61,7 +72,9 @@ class TaskDetailPage extends State<TaskDetail>{
               ],
             ),
             Text('Time pass: ${task.percentageTimeSpent}%'),
-            TextButton(onPressed: () {
+            Text('Deadline : ${DateFormat('dd/MMM/yyyy').format(task.deadline)}'),
+            TextButton(onPressed: () async {
+              await _update();
               Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
             },
               style: TextButton.styleFrom(

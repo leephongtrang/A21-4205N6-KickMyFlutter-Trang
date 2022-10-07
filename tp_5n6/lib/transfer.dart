@@ -67,3 +67,31 @@ class HomeItemResponse {
   factory HomeItemResponse.fromJson(Map<String, dynamic> json) => _$HomeItemResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomeItemResponseToJson(this);
 }
+
+@JsonSerializable()
+class TaskDetailResponse{
+  TaskDetailResponse();
+
+  int id = 0;
+  String name = '';
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  DateTime deadline = DateTime.now();
+  List<ProgressEvent> events = [];
+  int percentageDone = 0;
+  double percentageTimeSpent = 0.0;
+
+  factory TaskDetailResponse.fromJson(Map<String, dynamic> json) => _$TaskDetailResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$TaskDetailResponseToJson(this);
+}
+
+@JsonSerializable()
+class ProgressEvent{
+  ProgressEvent();
+
+  int value = 0;
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  DateTime timestamp = DateTime.now();
+
+  factory ProgressEvent.fromJson(Map<String, dynamic> json) => _$ProgressEventFromJson(json);
+  Map<String, dynamic> toJson() => _$ProgressEventToJson(this);
+}

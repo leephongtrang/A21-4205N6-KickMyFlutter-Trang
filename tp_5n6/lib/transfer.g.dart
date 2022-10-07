@@ -63,3 +63,35 @@ Map<String, dynamic> _$HomeItemResponseToJson(HomeItemResponse instance) =>
       'percentageTimeSpent': instance.percentageTimeSpent,
       'deadline': _toJson(instance.deadline),
     };
+
+TaskDetailResponse _$TaskDetailResponseFromJson(Map<String, dynamic> json) =>
+    TaskDetailResponse()
+      ..id = json['id'] as int
+      ..name = json['name'] as String
+      ..deadline = _fromJson(json['deadline'] as String)
+      ..events = (json['events'] as List<dynamic>)
+          .map((e) => ProgressEvent.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..percentageDone = json['percentageDone'] as int
+      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble();
+
+Map<String, dynamic> _$TaskDetailResponseToJson(TaskDetailResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'deadline': _toJson(instance.deadline),
+      'events': instance.events,
+      'percentageDone': instance.percentageDone,
+      'percentageTimeSpent': instance.percentageTimeSpent,
+    };
+
+ProgressEvent _$ProgressEventFromJson(Map<String, dynamic> json) =>
+    ProgressEvent()
+      ..value = json['value'] as int
+      ..timestamp = _fromJson(json['timestamp'] as String);
+
+Map<String, dynamic> _$ProgressEventToJson(ProgressEvent instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'timestamp': _toJson(instance.timestamp),
+    };
