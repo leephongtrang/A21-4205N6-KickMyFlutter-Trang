@@ -44,12 +44,13 @@ class _MyHomePageState extends State<MyHomePage> {
     _controllerUsername = TextEditingController();
   }
 
-  void _signin(String username, String password) async {
+  Future<void> _signin(String username, String password) async {
     SigninRequest s = SigninRequest();
     s.username = username;
     s.password = password;
     try {
-      SigninResponse signinResponse = await signin(s);
+      SigninResponse signinResponse = await SingletonDio.signin(s);
+      print(signinResponse.username);
     }
     catch (e) {
       print(e);
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             TextButton(onPressed: () async {
-              _signin(_controllerUsername.text, _controllerPassword.text);
+              await _signin(_controllerUsername.text, _controllerPassword.text);
               Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
             },
               style: TextButton.styleFrom(

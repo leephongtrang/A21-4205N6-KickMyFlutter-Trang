@@ -41,12 +41,12 @@ class AddTaskPage extends State<AddTask>{
     _controllerTaskName = TextEditingController();
   }
 
-  void _addTaskRequest() async {
+  Future<void> _addTaskRequest() async {
     AddTaskRequest a = new AddTaskRequest();
     a.deadline = DateTime.parse(_selectedDate);
     a.name = _controllerTaskName.text;
     try {
-      await addTask(a);
+      await SingletonDio.addTask(a);
     }
     catch (e) {
       throw(e);
@@ -80,7 +80,7 @@ class AddTaskPage extends State<AddTask>{
 
           TextButton(
             onPressed: () async {
-              _addTaskRequest();
+            await _addTaskRequest();
             Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
           },
             style: TextButton.styleFrom(
@@ -111,7 +111,7 @@ class AddTaskPage extends State<AddTask>{
             ListTile(
               title: const Text('Log out'),
               onTap: () {
-                signout();
+                SingletonDio.signout();
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
               },

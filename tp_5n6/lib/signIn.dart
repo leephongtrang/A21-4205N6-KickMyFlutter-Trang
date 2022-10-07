@@ -23,12 +23,12 @@ class SignInPage extends State<SignIn> {
     _controllerPassword2 = TextEditingController();
   }
 
-  void _signup(String username, String password) async {
+  Future<void> _signup(String username, String password) async {
     SignupRequest s = SignupRequest();
     s.username = username;
     s.password = password;
     try {
-      SigninResponse signinResponse = await signup(s);
+      SigninResponse signinResponse = await SingletonDio.signup(s);
     }
     catch(e){
       print(e);
@@ -70,7 +70,7 @@ class SignInPage extends State<SignIn> {
           ),
           TextButton(onPressed: () async {
             try {
-              _signup(_controllerUsername.text, _controllerPassword1.text);
+              await _signup(_controllerUsername.text, _controllerPassword1.text);
               Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
             } on DioError catch (e) {
 

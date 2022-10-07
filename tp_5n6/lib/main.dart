@@ -3,11 +3,10 @@ import 'package:tp_5n6/addTask.dart';
 import 'package:tp_5n6/logIn.dart';
 import 'package:tp_5n6/models/singleton.dart';
 import 'package:tp_5n6/taskDetail.dart';
-import 'package:intl/intl.dart';
 import 'package:tp_5n6/transfer.dart';
+import 'package:intl/intl.dart';
 
 import 'http_lib.dart';
-import 'models/task.dart';
 
 class Main extends StatefulWidget{
   @override
@@ -23,10 +22,12 @@ class MainPage extends State<Main>{
       Task('Charlotte', 245, 239, DateTime.utc(2123, 1, 1)),
       Task('Diane', 245, 46, DateTime.utc(1538, 1, 1))];*/
     taskList = [];
+    _listItem();
   }
 
   Future<void> _listItem() async {
-    List<HomeItemResponse> lt = await home();
+    List<HomeItemResponse> lt = await SingletonDio.home();
+    taskList = lt;
     print(lt);
     setState(() {
 
@@ -53,7 +54,7 @@ class MainPage extends State<Main>{
             child: Card(
               child: ListTile(
                 title: Text(taskList[i].name), //TODO mettre de l'imagination 🖼
-                subtitle: Text('Time pass: ${taskList[i].percentageTimeSpent}% | Final date : {DateFormat(''dd/MMM/yyyy'').format(taskList[i].end)}'),
+                subtitle: Text('Time pass: ${taskList[i].percentageTimeSpent}% | Final date : ${DateFormat('dd/MMM/yyyy').format(taskList[i].deadline)}'),
                 trailing: Text('${taskList[i].percentageDone}%'),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetail(id: taskList[i].id,)));
@@ -90,7 +91,7 @@ class MainPage extends State<Main>{
             ListTile(
               title: const Text('Log out'),
               onTap: () async {
-                signout;
+                SingletonDio.signout();
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
               },

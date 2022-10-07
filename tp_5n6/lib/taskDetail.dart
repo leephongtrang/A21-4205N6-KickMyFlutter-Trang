@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tp_5n6/addTask.dart';
 import 'package:tp_5n6/logIn.dart';
-import 'package:tp_5n6/models/task.dart';
 import 'package:tp_5n6/transfer.dart';
 
 import 'http_lib.dart';
@@ -105,7 +104,7 @@ class TaskDetailPage extends State<TaskDetail>{
             ListTile(
               title: const Text('Log out'),
               onTap: () {
-                signout();
+                SingletonDio.signout();
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
               },

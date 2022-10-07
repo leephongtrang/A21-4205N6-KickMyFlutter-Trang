@@ -57,11 +57,12 @@ String _toJson(DateTime date) => _dateFormatter.format(date);
 class HomeItemResponse {
   HomeItemResponse();
 
-  int id = '' as int;
+  int id = 0;
   String name = '';
-  int percentageDone = '' as int;
-  double percentageTimeSpent = '' as double;
-  DateTime deadline = '' as DateTime;
+  int percentageDone = 0;
+  double percentageTimeSpent = 0.0;
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  DateTime deadline = DateTime.now();
 
   factory HomeItemResponse.fromJson(Map<String, dynamic> json) => _$HomeItemResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomeItemResponseToJson(this);
