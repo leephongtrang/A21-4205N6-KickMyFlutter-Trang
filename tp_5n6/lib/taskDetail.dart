@@ -86,6 +86,13 @@ class TaskDetailPage extends State<TaskDetail>{
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+
+        },
+        tooltip: 'Add Picture',
+        child: const Icon(Icons.image),
+      ),
       drawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
         // through the options in the drawer if there isn't enough vertical
