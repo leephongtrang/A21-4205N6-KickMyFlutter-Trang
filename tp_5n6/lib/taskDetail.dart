@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tp_5n6/addTask.dart';
@@ -18,7 +21,8 @@ class TaskDetail extends StatefulWidget{
 class TaskDetailPage extends State<TaskDetail>{
   TaskDetailResponse task = TaskDetailResponse();
   ImagePicker picker = ImagePicker();
-  var _imageFile = null;
+  late File _imageFile;
+  String imagePAth = "";
 
   void initState() {
     _getDetail(widget.id);
@@ -39,7 +43,9 @@ class TaskDetailPage extends State<TaskDetail>{
 
   Future _getImage() async {
     var pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    _imageFile = pickedFile;
+    this.imagePAth = pickedFile!.path;
+    _imageFile = File(imagePAth);
+    setState(() {});
   }
 
   _plusOneProgress(){
@@ -95,6 +101,17 @@ class TaskDetailPage extends State<TaskDetail>{
               ),
               child: Text("Update progress"),
             ),
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: (imagePAth=="")?FileImage(File("")):FileImage(_imageFile),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              width: 100,
+              height: 100,
+              child: Image.network('http://10.0.2.2:8080/file/${widget.id}'),
+            )
           ],
         ),
       ),

@@ -95,3 +95,20 @@ class ProgressEvent{
   factory ProgressEvent.fromJson(Map<String, dynamic> json) => _$ProgressEventFromJson(json);
   Map<String, dynamic> toJson() => _$ProgressEventToJson(this);
 }
+
+@JsonSerializable()
+class TaskDetailPhotoResponse{
+  TaskDetailPhotoResponse();
+
+  int id = 0;
+  String name = '';
+  @JsonKey(fromJson: _fromJson, toJson: _toJson)
+  DateTime timestamp = DateTime.now();
+  List<ProgressEvent> events = [];
+  int photoId = 0;
+  int percentageDone = 0;
+  double percentageTimeSpent = 0.0;
+
+  factory TaskDetailPhotoResponse.fromJson(Map<String, dynamic> json) => _$TaskDetailPhotoResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$TaskDetailPhotoResponseToJson(this);
+}

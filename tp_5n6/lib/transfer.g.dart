@@ -95,3 +95,28 @@ Map<String, dynamic> _$ProgressEventToJson(ProgressEvent instance) =>
       'value': instance.value,
       'timestamp': _toJson(instance.timestamp),
     };
+
+TaskDetailPhotoResponse _$TaskDetailPhotoResponseFromJson(
+        Map<String, dynamic> json) =>
+    TaskDetailPhotoResponse()
+      ..id = json['id'] as int
+      ..name = json['name'] as String
+      ..timestamp = _fromJson(json['timestamp'] as String)
+      ..events = (json['events'] as List<dynamic>)
+          .map((e) => ProgressEvent.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..photoId = json['photoId'] as int
+      ..percentageDone = json['percentageDone'] as int
+      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble();
+
+Map<String, dynamic> _$TaskDetailPhotoResponseToJson(
+        TaskDetailPhotoResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'timestamp': _toJson(instance.timestamp),
+      'events': instance.events,
+      'photoId': instance.photoId,
+      'percentageDone': instance.percentageDone,
+      'percentageTimeSpent': instance.percentageTimeSpent,
+    };

@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -23,8 +24,6 @@ class SingletonDio {
           '${urlAndroid}api/id/signup',
           data: s//TODO flutter clean avant de remettre le TP
       );
-
-      print(response.headers.map[1]);
       print(response);
       return SigninResponse.fromJson(response.data);
     }
@@ -129,7 +128,7 @@ class SingletonDio {
     }
   }
 
-  static Future<String> upload(var file, int id) async {
+  static Future<String> upload(File file, int id) async {
     try {
       String fileName = file.path.split('/').last;
       FormData formData = FormData.fromMap({"file": await MultipartFile.fromFile(file.path, filename: fileName), "taskID": id});
@@ -146,5 +145,5 @@ class SingletonDio {
     }
   }
 
-  //static Future<byte[]>
+
 }
