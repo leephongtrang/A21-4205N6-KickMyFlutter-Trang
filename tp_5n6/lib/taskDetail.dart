@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tp_5n6/addTask.dart';
 import 'package:tp_5n6/logIn.dart';
 import 'package:tp_5n6/transfer.dart';
@@ -16,6 +17,8 @@ class TaskDetail extends StatefulWidget{
 
 class TaskDetailPage extends State<TaskDetail>{
   TaskDetailResponse task = TaskDetailResponse();
+  ImagePicker picker = ImagePicker();
+  var _imageFile = null;
 
   void initState() {
     _getDetail(widget.id);
@@ -27,7 +30,16 @@ class TaskDetailPage extends State<TaskDetail>{
   }
 
   Future<void> _update() async {
+    if(_imageFile != null){
+      var response = await SingletonDio.upload(_imageFile, widget.id);
+    }
+
     var response = await SingletonDio.update(task.id, task.percentageDone);
+  }
+
+  Future _getImage() async {
+    var pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    _imageFile = pickedFile;
   }
 
   _plusOneProgress(){
@@ -87,8 +99,8 @@ class TaskDetailPage extends State<TaskDetail>{
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
+        onPressed: () async {
+          await _getImage();
         },
         tooltip: 'Add Picture',
         child: const Icon(Icons.image),
