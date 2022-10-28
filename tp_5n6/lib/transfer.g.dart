@@ -47,42 +47,25 @@ Map<String, dynamic> _$AddTaskRequestToJson(AddTaskRequest instance) =>
       'deadline': _toJson(instance.deadline),
     };
 
-HomeItemResponse _$HomeItemResponseFromJson(Map<String, dynamic> json) =>
-    HomeItemResponse()
+HomeItemPhotoResponse _$HomeItemPhotoResponseFromJson(
+        Map<String, dynamic> json) =>
+    HomeItemPhotoResponse()
       ..id = json['id'] as int
       ..name = json['name'] as String
       ..percentageDone = json['percentageDone'] as int
       ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble()
-      ..deadline = _fromJson(json['deadline'] as String);
-
-Map<String, dynamic> _$HomeItemResponseToJson(HomeItemResponse instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'percentageDone': instance.percentageDone,
-      'percentageTimeSpent': instance.percentageTimeSpent,
-      'deadline': _toJson(instance.deadline),
-    };
-
-TaskDetailResponse _$TaskDetailResponseFromJson(Map<String, dynamic> json) =>
-    TaskDetailResponse()
-      ..id = json['id'] as int
-      ..name = json['name'] as String
       ..deadline = _fromJson(json['deadline'] as String)
-      ..events = (json['events'] as List<dynamic>)
-          .map((e) => ProgressEvent.fromJson(e as Map<String, dynamic>))
-          .toList()
-      ..percentageDone = json['percentageDone'] as int
-      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble();
+      ..photoId = json['photoId'] as int;
 
-Map<String, dynamic> _$TaskDetailResponseToJson(TaskDetailResponse instance) =>
+Map<String, dynamic> _$HomeItemPhotoResponseToJson(
+        HomeItemPhotoResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'deadline': _toJson(instance.deadline),
-      'events': instance.events,
       'percentageDone': instance.percentageDone,
       'percentageTimeSpent': instance.percentageTimeSpent,
+      'deadline': _toJson(instance.deadline),
+      'photoId': instance.photoId,
     };
 
 ProgressEvent _$ProgressEventFromJson(Map<String, dynamic> json) =>

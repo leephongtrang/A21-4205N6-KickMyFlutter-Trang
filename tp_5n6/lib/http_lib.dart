@@ -92,35 +92,20 @@ class SingletonDio {
     }
   }
 
-  static Future<List<HomeItemResponse>> home() async {
+  static Future<List<HomeItemPhotoResponse>> home() async {
     try {
       var response = await getDio().get(
-        '${urlAndroid}api/home',//iOS 127.0.0.1:8080
+        '${urlAndroid}api/home/photo',
       );
 
       var listJSON = response.data as List;
       var listHomeItemResponse = listJSON.map(
               (e) {
-            return HomeItemResponse.fromJson(e);
+            return HomeItemPhotoResponse.fromJson(e);
           }
       ).toList();
       print(response);
       return listHomeItemResponse;
-    }
-    catch (e) {
-      print(e);
-      throw(e);
-    }
-  }
-
-  static Future<TaskDetailResponse> detail(int id) async {
-    try {
-      var response = await getDio().get(
-        '${urlAndroid}api/detail/$id'
-      );
-      print(response.data);
-
-      return TaskDetailResponse.fromJson(response.data);
     }
     catch (e) {
       print(e);
@@ -148,7 +133,9 @@ class SingletonDio {
   static Future<TaskDetailPhotoResponse> getDetailPhoto(int id) async {
     try {
       var response = await getDio().get('${urlAndroid}api/detail/photo/${id}');
+
       print(response.data);
+
       return TaskDetailPhotoResponse.fromJson(response.data);
     }
     catch (e) {

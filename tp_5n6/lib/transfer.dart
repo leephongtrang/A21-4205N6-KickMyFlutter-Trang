@@ -54,8 +54,8 @@ String _toJson(DateTime date) => _dateFormatter.format(date);
 
 
 @JsonSerializable()
-class HomeItemResponse {
-  HomeItemResponse();
+class HomeItemPhotoResponse {
+  HomeItemPhotoResponse();
 
   int id = 0;
   String name = '';
@@ -63,25 +63,10 @@ class HomeItemResponse {
   double percentageTimeSpent = 0.0;
   @JsonKey(fromJson: _fromJson, toJson: _toJson)
   DateTime deadline = DateTime.now();
+  int photoId = 0;
 
-  factory HomeItemResponse.fromJson(Map<String, dynamic> json) => _$HomeItemResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$HomeItemResponseToJson(this);
-}
-
-@JsonSerializable()
-class TaskDetailResponse{
-  TaskDetailResponse();
-
-  int id = 0;
-  String name = '';
-  @JsonKey(fromJson: _fromJson, toJson: _toJson)
-  DateTime deadline = DateTime.now();
-  List<ProgressEvent> events = [];
-  int percentageDone = 0;
-  double percentageTimeSpent = 0.0;
-
-  factory TaskDetailResponse.fromJson(Map<String, dynamic> json) => _$TaskDetailResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$TaskDetailResponseToJson(this);
+  factory HomeItemPhotoResponse.fromJson(Map<String, dynamic> json) => _$HomeItemPhotoResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$HomeItemPhotoResponseToJson(this);
 }
 
 @JsonSerializable()

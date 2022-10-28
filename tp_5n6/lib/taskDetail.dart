@@ -34,7 +34,7 @@ class TaskDetailPage extends State<TaskDetail>{
   }
 
   Future<void> _update() async {
-    if(_imageFile != null){
+    if(imagePAth != ""){
       var response = await SingletonDio.upload(_imageFile, task.id);
     }
     var response = await SingletonDio.update(task.id, task.percentageDone);
@@ -100,19 +100,24 @@ class TaskDetailPage extends State<TaskDetail>{
               ),
               child: Text("Update progress"),
             ),
-            Container(
-              width: 100,
-              height: 100,
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  if (imagePAth != "") {
-                    return Image(image: (imagePAth=="")?FileImage(File("")):FileImage(_imageFile));
-                  }
-                  else if (task.photoId != 0) {
-                    return Image.network('${SingletonDio.urlAndroid}file/${task.photoId}');
-                  }
-                  return Text('');
-                },
+            GestureDetector(
+              onTap: () async {
+                await _getImageGallery();
+              },
+              child: Container(
+                width: 100,
+                height: 100,
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    if (imagePAth != "") {
+                      return Image(image: (imagePAth=="")?FileImage(File("")):FileImage(_imageFile));
+                    }
+                    else if (task.photoId != 0) {
+                      return Image.network('${SingletonDio.urlAndroid}file/${task.photoId}');
+                    }
+                    return Text('');
+                  },
+                ),
               ),
             ),
           ],

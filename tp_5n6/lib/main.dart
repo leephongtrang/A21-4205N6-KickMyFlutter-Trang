@@ -14,7 +14,7 @@ class Main extends StatefulWidget{
 }
 
 class MainPage extends State<Main>{
-  late List<HomeItemResponse> taskList;
+  late List<HomeItemPhotoResponse> taskList;
 
   void initState()  {
     /*taskList = [ Task('Anne', 463, 645, DateTime.utc(4524, 1, 1)),
@@ -26,7 +26,7 @@ class MainPage extends State<Main>{
   }
 
   Future<void> _listItem() async {
-    List<HomeItemResponse> lt = await SingletonDio.home();
+    List<HomeItemPhotoResponse> lt = await SingletonDio.home();
     taskList = lt;
     setState(() {});
   }
@@ -50,8 +50,9 @@ class MainPage extends State<Main>{
           return Container(
             child: Card(
               child: ListTile(
+                leading: Image.network('${SingletonDio.urlAndroid}file/${taskList[i].photoId}'),
                 title: Text(taskList[i].name), //TODO mettre de l'imagination 🖼
-                subtitle: Text('Time pass: ${taskList[i].percentageTimeSpent}% | Final date : ${DateFormat('dd/MMM/yyyy').format(taskList[i].deadline)}'),
+                subtitle: Text('Time pass: ${taskList[i].percentageTimeSpent}% \nFinal date : ${DateFormat('dd/MMM/yyyy').format(taskList[i].deadline)}'),
                 trailing: Text('${taskList[i].percentageDone}%'),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetail(id: taskList[i].id,)));
