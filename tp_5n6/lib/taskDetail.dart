@@ -19,7 +19,7 @@ class TaskDetail extends StatefulWidget{
 }
 
 class TaskDetailPage extends State<TaskDetail>{
-  TaskDetailResponse task = TaskDetailResponse();
+  TaskDetailPhotoResponse task = TaskDetailPhotoResponse();
   ImagePicker picker = ImagePicker();
   late File _imageFile;
   String imagePAth = "";
@@ -29,19 +29,18 @@ class TaskDetailPage extends State<TaskDetail>{
   }
 
   Future<void> _getDetail(int id) async {
-    task = await SingletonDio.detail(id);
+    task = await SingletonDio.getDetailPhoto(id);
     setState(() {});
   }
 
   Future<void> _update() async {
     if(_imageFile != null){
-      var response = await SingletonDio.upload(_imageFile, widget.id);
+      var response = await SingletonDio.upload(_imageFile, task.id);
     }
-
     var response = await SingletonDio.update(task.id, task.percentageDone);
   }
 
-  Future _getImage() async {
+  Future _getImageGallery() async {
     var pickedFile = await picker.pickImage(source: ImageSource.gallery);
     this.imagePAth = pickedFile!.path;
     _imageFile = File(imagePAth);
@@ -102,22 +101,26 @@ class TaskDetailPage extends State<TaskDetail>{
               child: Text("Update progress"),
             ),
             Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: (imagePAth=="")?FileImage(File("")):FileImage(_imageFile),
-                  fit: BoxFit.cover,
-                ),
-              ),
               width: 100,
               height: 100,
-              child: Image.network('http://10.0.2.2:8080/file/${widget.id}'),
-            )
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  if (imagePAth != "") {
+                    return Image(image: (imagePAth=="")?FileImage(File("")):FileImage(_imageFile));
+                  }
+                  else if (task.photoId != 0) {
+                    return Image.network('${SingletonDio.urlAndroid}file/${task.photoId}');
+                  }
+                  return Text('');
+                },
+              ),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await _getImage();
+          await _getImageGallery();
         },
         tooltip: 'Add Picture',
         child: const Icon(Icons.image),

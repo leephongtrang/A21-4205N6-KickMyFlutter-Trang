@@ -145,5 +145,15 @@ class SingletonDio {
     }
   }
 
+  static Future<TaskDetailPhotoResponse> getDetailPhoto(int id) async {
+    try {
+      var response = await getDio().get('${urlAndroid}api/detail/photo/${id}');
+      print(response.data);
+      return TaskDetailPhotoResponse.fromJson(response.data);
+    }
+    catch (e) {
+      throw(e);
+    }
+  }
 
 }
