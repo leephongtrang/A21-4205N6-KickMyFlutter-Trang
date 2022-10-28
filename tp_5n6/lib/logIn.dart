@@ -3,6 +3,7 @@ import 'package:tp_5n6/http_lib.dart';
 import 'package:tp_5n6/main.dart';
 import 'package:tp_5n6/signIn.dart';
 import 'package:tp_5n6/transfer.dart';
+import 'package:tp_5n6/i18n/intl_localization.dart';
 
 import 'models/singleton.dart';
 
@@ -72,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: _controllerUsername,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: "Username",
+                labelText: 'USERNAME',
               ),
             ),
             TextField(
