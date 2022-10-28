@@ -14,14 +14,9 @@ class Main extends StatefulWidget{
 }
 
 class MainPage extends State<Main>{
-  late List<HomeItemPhotoResponse> taskList;
+  List<HomeItemPhotoResponse> taskList = [];
 
-  void initState()  {
-    /*taskList = [ Task('Anne', 463, 645, DateTime.utc(4524, 1, 1)),
-      Task('Brigitte', 645, 4, DateTime.utc(9531, 1, 1)),
-      Task('Charlotte', 245, 239, DateTime.utc(2123, 1, 1)),
-      Task('Diane', 245, 46, DateTime.utc(1538, 1, 1))];*/
-    taskList = [];
+  void initState() {
     _listItem();
   }
 
@@ -50,7 +45,16 @@ class MainPage extends State<Main>{
           return Container(
             child: Card(
               child: ListTile(
-                leading: Image.network('${SingletonDio.urlAndroid}file/${taskList[i].photoId}'),
+                leading: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    if (taskList[i].photoId != 0) {
+                      return Image.network('${SingletonDio.urlAndroid}file/${taskList[i].photoId}?width=100');
+                    }
+                    else  {
+                      return Text('');
+                    }
+                  },
+                ),
                 title: Text(taskList[i].name), //TODO mettre de l'imagination 🖼
                 subtitle: Text('Time pass: ${taskList[i].percentageTimeSpent}% \nFinal date : ${DateFormat('dd/MMM/yyyy').format(taskList[i].deadline)}'),
                 trailing: Text('${taskList[i].percentageDone}%'),
