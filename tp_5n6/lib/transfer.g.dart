@@ -101,7 +101,7 @@ TaskDetailPhotoResponse _$TaskDetailPhotoResponseFromJson(
     TaskDetailPhotoResponse()
       ..id = json['id'] as int
       ..name = json['name'] as String
-      ..timestamp = _fromJson(json['timestamp'] as String)
+      ..deadline = _fromJson(json['deadline'] as String)
       ..events = (json['events'] as List<dynamic>)
           .map((e) => ProgressEvent.fromJson(e as Map<String, dynamic>))
           .toList()
@@ -114,7 +114,7 @@ Map<String, dynamic> _$TaskDetailPhotoResponseToJson(
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'timestamp': _toJson(instance.timestamp),
+      'deadline': _toJson(instance.deadline),
       'events': instance.events,
       'photoId': instance.photoId,
       'percentageDone': instance.percentageDone,

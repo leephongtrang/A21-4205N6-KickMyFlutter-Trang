@@ -103,7 +103,7 @@ class TaskDetailPhotoResponse{
   int id = 0;
   String name = '';
   @JsonKey(fromJson: _fromJson, toJson: _toJson)
-  DateTime timestamp = DateTime.now();
+  DateTime deadline = DateTime.now();
   List<ProgressEvent> events = [];
   int photoId = 0;
   int percentageDone = 0;

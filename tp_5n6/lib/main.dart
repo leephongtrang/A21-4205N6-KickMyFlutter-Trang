@@ -28,10 +28,7 @@ class MainPage extends State<Main>{
   Future<void> _listItem() async {
     List<HomeItemResponse> lt = await SingletonDio.home();
     taskList = lt;
-    print(lt);
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   String _username(){
