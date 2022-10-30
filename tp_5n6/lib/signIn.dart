@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:tp_5n6/http_lib.dart';
-import 'package:tp_5n6/main.dart';
+import 'package:tp_5n6/home.dart';
 import 'package:tp_5n6/transfer.dart';
 
 import 'models/singleton.dart';

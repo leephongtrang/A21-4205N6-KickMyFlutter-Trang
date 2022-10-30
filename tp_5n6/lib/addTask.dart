@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:tp_5n6/logIn.dart';
+import 'package:tp_5n6/main.dart';
 import 'package:tp_5n6/models/singleton.dart';
 import 'package:tp_5n6/transfer.dart';
 
 import 'http_lib.dart';
-import 'main.dart';
+import 'home.dart';
 
 class AddTask extends StatefulWidget{
   @override

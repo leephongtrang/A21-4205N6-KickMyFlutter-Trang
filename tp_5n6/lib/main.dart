@@ -1,102 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:tp_5n6/addTask.dart';
-import 'package:tp_5n6/logIn.dart';
-import 'package:tp_5n6/models/singleton.dart';
-import 'package:tp_5n6/taskDetail.dart';
+import 'package:tp_5n6/http_lib.dart';
+import 'package:tp_5n6/home.dart';
+import 'package:tp_5n6/signIn.dart';
 import 'package:tp_5n6/transfer.dart';
-import 'package:intl/intl.dart';
+import 'package:tp_5n6/i18n/intl_localization.dart';
 
-import 'http_lib.dart';
+import 'models/singleton.dart';
 
-class Main extends StatefulWidget{
-  @override
-  MainPage createState() => MainPage();
+void main() {
+  runApp(const MyApp());
 }
 
-class MainPage extends State<Main>{
-  List<HomeItemPhotoResponse> taskList = [];
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'KickMyFlutter'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  late TextEditingController _controllerUsername;
+  late TextEditingController _controllerPassword;
 
   void initState() {
-    _listItem();
+    _controllerPassword = TextEditingController();
+    _controllerUsername = TextEditingController();
   }
 
-  Future<void> _listItem() async {
-    List<HomeItemPhotoResponse> lt = await SingletonDio.home();
-    taskList = lt;
-    setState(() {});
-  }
-
-  String _username(){
-    if(Singleton().getUsername() == null){
-      return "sdad";
+  Future<void> _signin(String username, String password) async {
+    SigninRequest s = SigninRequest();
+    s.username = username;
+    s.password = password;
+    try {
+      SigninResponse signinResponse = await SingletonDio.signin(s);
+      print(signinResponse.username);
     }
-    else { return Singleton().getUsername(); }
+    catch (e) {
+      print(e);
+      throw(e);
+    }
   }
 
   @override
-  Widget build(BuildContext buildContext){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Main"),
+        title: Text(widget.title),
       ),
-      body: ListView.builder(
-        itemCount: taskList.length,
-        itemBuilder: (context, i){
-          return Container(
-            child: Card(
-              child: ListTile(
-                leading: LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    if (taskList[i].photoId != 0) {
-                      return Image.network('${SingletonDio.urlAndroid}file/${taskList[i].photoId}?width=100');
-                    }
-                    else  {
-                      return Text('');
-                    }
-                  },
-                ),
-                title: Text(taskList[i].name), //TODO mettre de l'imagination 🖼
-                subtitle: Text('Time pass: ${taskList[i].percentageTimeSpent}% \nFinal date : ${DateFormat('dd/MMM/yyyy').format(taskList[i].deadline)}'),
-                trailing: Text('${taskList[i].percentageDone}%'),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TaskDetail(id: taskList[i].id,)));
-                },
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextField(
+              controller: _controllerUsername,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'USERNAME',
               ),
             ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AddTask()));
-        },
-        tooltip: 'Add Task',
-        child: const Icon(Icons.add),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            TextField(
+              obscureText: true,
+              controller: _controllerPassword,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Password",
               ),
-              child: Text('Singleton().getUsername()'),
             ),
-            ListTile(
-              title: const Text('Add task'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AddTask()));
-              },
+            TextButton(onPressed: () async {
+              await _signin(_controllerUsername.text, _controllerPassword.text);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+            },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue,
+                primary: Colors.white,
+              ),
+              child: Text("Log In"),
             ),
-            ListTile(
-              title: const Text('Log out'),
-              onTap: () async {
-                SingletonDio.signout();
-                Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MyApp()));
-              },
+            TextButton(onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SignIn()));
+            },
+              child: Text("Sign In"),
             ),
           ],
         ),

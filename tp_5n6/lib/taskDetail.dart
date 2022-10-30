@@ -4,12 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tp_5n6/addTask.dart';
-import 'package:tp_5n6/logIn.dart';
+import 'package:tp_5n6/main.dart';
 import 'package:tp_5n6/transfer.dart';
 import 'package:intl/intl.dart';
 
 import 'http_lib.dart';
-import 'main.dart';
+import 'home.dart';
 
 class TaskDetail extends StatefulWidget{
   final int id;
