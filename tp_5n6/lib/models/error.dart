@@ -1,0 +1,3 @@
+class ValidationError implements Exception {
+
+}

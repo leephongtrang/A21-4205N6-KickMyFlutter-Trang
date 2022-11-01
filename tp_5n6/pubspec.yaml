@@ -13,11 +13,14 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  intl: ^0.17.0
   syncfusion_flutter_calendar: ^20.2.48
   dio_cookie_manager: ^2.0.0
   json_annotation: ^4.6.0
   image_picker: ^0.8.6
   dio: ^4.0.6
+  #flutter_smart_dialog: ^4.6.2+1
+  #progress_dialog: ^1.2.4
   flutter_launcher_icons: ^0.10.0
 
   cupertino_icons: ^1.0.2
@@ -43,7 +46,7 @@ flutter_icons:
   image_path: "assets/icon/icon.png"
 # The following section is specific to Flutter packages.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

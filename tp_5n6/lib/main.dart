@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tp_5n6/http_lib.dart';
 import 'package:tp_5n6/home.dart';
 import 'package:tp_5n6/signIn.dart';
@@ -23,6 +25,19 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'KickMyFlutter'),
+      localizationsDelegates: [
+        //DemoDelegate(), //TODO delegate
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('fr'),
+      ],
+/*
+      navigatorObservers: [FlutterSmartDialog.observer],
+      builder: FlutterSmartDialog.init(),*/
     );
   }
 }
@@ -39,24 +54,39 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController _controllerUsername;
   late TextEditingController _controllerPassword;
+  String errorMessage = '';
 
   void initState() {
     _controllerPassword = TextEditingController();
     _controllerUsername = TextEditingController();
   }
 
+  void validation() {
+    String u = _controllerUsername.text;
+    String p = _controllerPassword.text;
+    if (u.isEmpty && p.isEmpty) {
+      throw('Both filed are empty.');
+    }
+    if (u.isEmpty) {
+      throw('Username field is empty.');
+    }
+    if (p.isEmpty) {
+      throw('Password field is empty');
+    }
+  }
+
   Future<void> _signin(String username, String password) async {
-    SigninRequest s = SigninRequest();
-    s.username = username;
-    s.password = password;
-    try {
-      SigninResponse signinResponse = await SingletonDio.signin(s);
-      print(signinResponse.username);
-    }
-    catch (e) {
-      print(e);
-      throw(e);
-    }
+      SigninRequest s = SigninRequest();
+      s.username = username;
+      s.password = password;
+      try {
+        SigninResponse signinResponse = await SingletonDio.signin(s);
+        print(signinResponse.username);
+      }
+      catch (e) {
+        //print(e);
+        rethrow;
+      }
   }
 
   @override
@@ -71,22 +101,43 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             TextField(
               controller: _controllerUsername,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'USERNAME',
+                labelText: Locs.of(context).trans('USERNAME'),
               ),
             ),
             TextField(
               obscureText: true,
               controller: _controllerPassword,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: "Password",
               ),
             ),
             TextButton(onPressed: () async {
-              await _signin(_controllerUsername.text, _controllerPassword.text);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+              FocusManager.instance.primaryFocus?.unfocus();
+              //SmartDialog.showLoading();
+              try {
+                validation();
+                await _signin(_controllerUsername.text, _controllerPassword.text);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+                //SmartDialog.dismiss();
+              }
+              catch (e) {
+                if (e is DioError) {
+                  if (e.response?.data == 'InternalAuthenticationServiceException') {
+                    errorMessage = 'Username or password is wrong.';
+                  }
+                }
+
+                final snackBar = SnackBar(
+                  content: Text(e.toString()),
+                );
+
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                //SmartDialog.dismiss();
+                throw(e);
+              }
             },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.blue,

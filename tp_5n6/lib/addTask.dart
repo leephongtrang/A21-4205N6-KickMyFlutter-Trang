@@ -65,11 +65,6 @@ class AddTaskPage extends State<AddTask>{
             controller: _controllerTaskName,
           ),
 
-          Text('Selected date: $_selectedDate'),//TODO A RETIRER
-          Text('Selected date count: $_dateCount'),
-          Text('Selected range: $_range'),
-          Text('Selected ranges count: $_rangeCount'),
-
           SfDateRangePicker(
             onSelectionChanged: _onSelectionChanged,
             selectionMode: DateRangePickerSelectionMode.single,

@@ -38,7 +38,6 @@ class SingletonDio {
           '${urlAndroid}api/id/signin',//iOS 127.0.0.1:8080
           data: s
       );
-
       return  SigninResponse.fromJson(response.data);
     }
     catch (e) {

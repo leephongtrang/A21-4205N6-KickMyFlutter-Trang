@@ -9,6 +9,8 @@ import 'package:intl/intl.dart';
 import 'http_lib.dart';
 
 class Main extends StatefulWidget{
+  const Main({Key? key}) : super(key: key);
+
   @override
   MainPage createState() => MainPage();
 }
