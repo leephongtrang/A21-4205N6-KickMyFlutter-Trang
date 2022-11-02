@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:tp_5n6/addTask.dart';
 import 'package:tp_5n6/main.dart';
 import 'package:tp_5n6/models/singleton.dart';
@@ -17,15 +19,34 @@ class Main extends StatefulWidget{
 
 class MainPage extends State<Main>{
   List<HomeItemPhotoResponse> taskList = [];
+  String errorMessage = '';
 
   void initState() {
-    _listItem();
+    EasyLoading.show(status: 'loading...');
+    try {
+      _listItem();
+    }
+    catch (e) {
+      if (e is DioError) {
+        if (e.response == null) {
+          errorMessage = 'There is no connection';
+        }
+      }
+
+      final snackBar = SnackBar(
+        content: Text(errorMessage),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      EasyLoading.dismiss();
+      throw(e);
+    }
   }
 
   Future<void> _listItem() async {
     List<HomeItemPhotoResponse> lt = await SingletonDio.home();
     taskList = lt;
     setState(() {});
+    EasyLoading.dismiss();
   }
 
   String _username(){

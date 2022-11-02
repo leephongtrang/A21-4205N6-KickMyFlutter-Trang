@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tp_5n6/addTask.dart';
 import 'package:tp_5n6/main.dart';
@@ -22,15 +23,42 @@ class TaskDetailPage extends State<TaskDetail>{
   TaskDetailPhotoResponse task = TaskDetailPhotoResponse();
   ImagePicker picker = ImagePicker();
   late File _imageFile;
-  String imagePAth = "";
+  String imagePAth = '';
+  String errorMessage = '';
 
   void initState() {
-    _getDetail(widget.id);
+    EasyLoading.show(status: 'loading...');
+    try {
+      _getDetail(widget.id);
+    }
+    catch(e) {
+      if (e is DioError) {
+        if (e.response == null) {
+          errorMessage = 'There is no connection';
+        }
+      }
+      final snackBar = SnackBar(
+        content: Text(errorMessage),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      EasyLoading.dismiss();
+      throw(e);
+    }
+  }
+
+  validation() {
+    if (task.percentageDone > 100) {
+      throw 'The advancement can not be over 100';
+    }
+    if (task.percentageDone < 0) {
+      throw 'The advancement con not be under 0';
+    }
   }
 
   Future<void> _getDetail(int id) async {
     task = await SingletonDio.getDetailPhoto(id);
     setState(() {});
+    EasyLoading.dismiss();
   }
 
   Future<void> _update() async {
@@ -91,8 +119,30 @@ class TaskDetailPage extends State<TaskDetail>{
             Text('Time pass: ${task.percentageTimeSpent}%'),
             Text('Deadline : ${DateFormat('dd/MMM/yyyy').format(task.deadline)}'),
             TextButton(onPressed: () async {
-              await _update();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+              try {
+                validation();
+                await _update();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+              }
+              catch(e) {
+                if (e is DioError) {
+                  if (e.response == null) {
+                    errorMessage = 'There is no connection';
+                  }
+                }
+                if (e == 'The advancement can not be over 100') {
+                  errorMessage = 'The advancement can not be over 100';
+                }
+                if (e == 'The advancement con not be under 0') {
+                  errorMessage = 'The advancement con not be under 0';
+                }
+
+                final snackBar = SnackBar(
+                  content: Text(errorMessage),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                throw(e);
+              }
             },
               style: TextButton.styleFrom(
                 backgroundColor: Colors.blue,

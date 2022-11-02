@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:tp_5n6/main.dart';
@@ -15,6 +17,7 @@ class AddTask extends StatefulWidget{
 
 class AddTaskPage extends State<AddTask>{
   late TextEditingController _controllerTaskName;
+  String errorMessage = '';
 
   String _selectedDate = '';
   String _dateCount = '';
@@ -39,6 +42,16 @@ class AddTaskPage extends State<AddTask>{
 
   void initState(){
     _controllerTaskName = TextEditingController();
+  }
+
+  void validation() {
+    String t = _controllerTaskName.text;
+    if (t.isEmpty) {
+      throw 'There is no task name.';
+    }
+    if (_selectedDate.isEmpty) {
+      throw 'There is no selected date.';
+    }
   }
 
   Future<void> _addTaskRequest() async {
@@ -75,8 +88,36 @@ class AddTaskPage extends State<AddTask>{
 
           TextButton(
             onPressed: () async {
-            await _addTaskRequest();
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+              try {
+                EasyLoading.show(status: 'loading...');
+                validation();
+                await _addTaskRequest();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Main()));
+                EasyLoading.dismiss();
+              }
+              catch (e) {
+                if (e is DioError) {
+                  if (e.response == 'Existing') {
+                    errorMessage = 'A task with the same name already exist.';
+                  }
+                  if (e.response == null) {
+                    errorMessage = 'There is no connection';
+                  }
+                }
+                if (e == 'There is no task name.') {
+                  errorMessage = 'There is no task name.';
+                }
+                if (e == 'There is no selected date.') {
+                  errorMessage = 'There is no selected date.';
+                }
+
+                final snackBar = SnackBar(
+                  content: Text(errorMessage),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                EasyLoading.dismiss();
+                throw(e);
+              }
           },
             style: TextButton.styleFrom(
               backgroundColor: Colors.blue,
